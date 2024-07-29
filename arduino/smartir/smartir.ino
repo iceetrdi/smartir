@@ -9,6 +9,7 @@ ch552ir_data irData;
 
 void setup(){
   ledctl_begin(&led, 30);
+  buttonctl_begin(&button, 31);
   irData.datalength = 0;
 }
 
