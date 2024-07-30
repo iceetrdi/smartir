@@ -1,0 +1,6 @@
+[submodule "ch55xduino"]
+	path = ch55xduino
+	url = https://github.com/DeqingSun/ch55xduino.git
+[submodule "WeActStudio.CH552CoreBoard"]
+	path = WeActStudio.CH552CoreBoard
+	url = https://github.com/WeActStudio/WeActStudio.CH552CoreBoard.git
