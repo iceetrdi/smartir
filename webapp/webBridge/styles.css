@@ -1,0 +1,15 @@
+.connecting {
+    background-color: yellow !important;
+}
+
+.connected {
+    background-color: green !important;
+}
+
+.connectionfailed {
+    background-color: red !important;
+}
+
+.disconnected {
+    background-color: gray !important;
+}
