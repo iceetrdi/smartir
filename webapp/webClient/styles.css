@@ -1,0 +1,63 @@
+#mqttStatus {
+    margin-left: 10px;
+}
+.connected {
+    background-color: green !important;
+}
+
+.connectionfailed {
+    background-color: red !important;
+}
+
+.disconnected {
+    background-color: gray !important;
+}
+
+
+
+.tooltip {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  /* ツールチップ全体の設定 */
+  .tooltip::before,
+  .tooltip::after {
+    position: absolute;
+    opacity: 0;
+    transition: all 0.3s;
+  }
+  
+  /* 吹き出しのひげ部分 */
+  .tooltip::before {
+    content: "";
+    border: 10px solid transparent;
+    border-bottom-color: #000;
+    top: 10px;
+    left: 10px;
+  }
+  
+  /* 吹き出しの本体 */
+  .tooltip::after {
+    content: attr(data-tooltip);
+    display: block;
+    padding: 7px 13px;
+    background: #000;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    top: 30px;
+    left: 0;
+  }
+  
+  /* マウスホバーしたときの設定 */
+  .tooltip:hover::before{
+    top: 16px;
+    opacity: 1;
+  }
+  
+  .tooltip:hover::after{
+    top: 36px;
+    opacity: 1;
+  }

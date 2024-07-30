@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Web-IR Bridge</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="my-4">接続設定</h2>
+      <div class="d-flex align-items-center">
+        <span
+          id="serialStatus"
+          title="IR Module Status"
+          class="badge bg-secondary disconnected mb-2 me-2"
+          >未接続</span
+        >
+        <h3 class="form-label">赤外線モジュール接続</h3>
+        <button
+          id="connectSerial"
+          class="btn btn-primary ms-3"
+          style="min-width: 75px"
+        >
+          接続
+        </button>
+        <button
+          id="disconnectSerial"
+          class="btn btn-secondary ms-1"
+          style="min-width: 75px"
+        >
+          切断
+        </button>
+      </div>
+      <div class="d-flex align-items-center">
+        <span
+          id="mqttStatus"
+          title="MQTT Status"
+          class="badge bg-secondary disconnected mb-2 me-2"
+          >未接続</span
+        >
+        <h3 class="form-label">リモート接続</h3>
+        <button
+          id="connectMQTT"
+          class="btn btn-primary ms-3"
+          style="min-width: 75px"
+        >
+          接続
+        </button>
+        <button
+          id="disconnectMQTT"
+          class="btn btn-secondary ms-1"
+          style="min-width: 75px"
+        >
+          切断
+        </button>
+      </div>
+      <div class="mb-3">
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <label for="mqttBroker" class="form-label">リモート接続先</label>
+            <input
+              type="text"
+              id="mqttBroker"
+              class="form-control"
+              placeholder="ws:// or wss://"
+              value="ws://broker.emqx.io:8083"
+            />
+          </div>
+          <div class="ms-1">
+            <label for="mqttTopic" class="form-label">トピック</label>
+            <input
+              type="text"
+              id="mqttTopic"
+              class="form-control"
+              placeholder="topic"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center">
+        <h2 class="my-4">赤外線受信ログ</h2>
+        <button id="clearReceiveLog" class="btn btn-secondary ms-3">クリア</button>
+      </div>
+
+      <textarea
+        id="receiveLog"
+        class="form-control"
+        rows="10"
+        readonly
+      ></textarea>
+
+      <div class="d-flex align-items-center">
+        <h2 class="my-4">赤外線送信ログ</h2>
+        <button id="clearSendLog" class="btn btn-secondary ms-3">クリア</button>
+      </div>
+      <textarea id="sendLog" class="form-control" rows="10" readonly></textarea>
+
+      <div class="my-3">
+        <label for="serialInput" class="form-label">赤外線送信</label>
+        <div class="d-flex">
+          <input type="text" id="serialInput" class="form-control me-2" />
+          <button
+            id="sendSerial"
+            class="btn btn-primary"
+            style="min-width: 75px"
+          >
+            送信
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
