@@ -1,7 +1,7 @@
 # Webアプリ
 
-ブラウザ (Google Chrome など) で開いたら動く、IoTを体験できるWebアプリです。
-`index.html` をブラウザで開いてください。
+ブラウザ (Google Chrome など) で開いたら動く、IoT ( Internet of Things ) を体験できるWebアプリです。
+IoTでよく使われる MQTT プロトコルを用いて相互通信をしています。
 
 ## アプリ説明
 
