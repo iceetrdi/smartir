@@ -1,6 +1,6 @@
-# smartir
+# smartIR
 
-「スマートリモコンを作ろう」題材のCH552, ch55xduinoを使用した学習リモコンです
+「スマートリモコンを作ろう」題材のCH552マイコンボードを使用した学習リモコンです。廉価な材料で電子工作やIoTを体験することができます。
 
 ## Web アプリ
 
@@ -16,11 +16,18 @@
 
 ## 使用材料
 
-### マイコンボード
+### マイコン
+
+#### マイコンボード
 
 [WeActStudio.CH552CoreBoard](https://github.com/WeActStudio/WeActStudio.CH552CoreBoard)
 
-### マイコン開発環境
+#### 開発環境
 
-Arduino IDE と [ch55xduino](https://github.com/DeqingSun/ch55xduino) を使用しています。
+[Arduino IDE](https://www.arduino.cc/en/software) と [ch55xduino](https://github.com/DeqingSun/ch55xduino) を使用しています。
 
+## 実施イベント
+
+この教材を使用したイベントなど
+
+2024.08 2024年 第6回ものづくりチャレンジ大作戦 ( 主催: [一般社団法人ものづくり文化振興協会](https://sites.google.com/view/monodukuri-bunka/) )
