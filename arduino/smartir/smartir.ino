@@ -1,15 +1,13 @@
-#include <Serial.h>
 #include "ch552ir.h"
 #include "buttonctl.h"
 #include "ledctl.h"
 
-ledctl_led led;
-buttonctl_button button;
-ch552ir_data irData;
-ch552ir_data irSaveData;
+inline void ch552ir_data_test(__xdata ch552ir_data* data);
 
-// void ch552ir_data_test(ch552ir_data* data);
-
+__xdata ledctl_led led;
+__xdata buttonctl_button button;
+__xdata ch552ir_data irData;
+__xdata ch552ir_data irSaveData;
 
 void setup(){
   ch552ir_begin();
@@ -49,50 +47,49 @@ void loop(){
   ledctl_update(&led);
 }
 
-/*
-void ch552ir_record_test(){
-  __xdata uint16_t irRawdata_us[128];
-  size_t irRawdata_us_len = 0;
 
-  if(ch552ir_available()){
-    irRawdata_us_len = ch552ir_record(irRawdata_us, 128);
-    if(irRawdata_us_len){
-      USBSerial_print(irRawdata_us_len);
-      USBSerial_print("[");
-      for (size_t i = 0; i < irRawdata_us_len; i++) {
-        USBSerial_print(irRawdata_us[i]);
-        if(i < irRawdata_us_len - 1){
-          USBSerial_print(",");
-        }
-      }
-      USBSerial_println("]");
-    } else {
-      USBSerial_println("No data received.");
-    }
-  }
-}
-*/
+// void ch552ir_record_test(){
+//   __xdata uint16_t irRawdata_us[128];
+//   size_t irRawdata_us_len = 0;
 
-/*
-void ch552ir_data_test(ch552ir_data* data){
-    if(data->format == CH552IR_FORMAT_NEC){
+//   if(ch552ir_available()){
+//     irRawdata_us_len = ch552ir_record(irRawdata_us, 128);
+//     if(irRawdata_us_len){
+//       USBSerial_print(irRawdata_us_len);
+//       USBSerial_print("[");
+//       for (size_t i = 0; i < irRawdata_us_len; i++) {
+//         USBSerial_print(irRawdata_us[i]);
+//         if(i < irRawdata_us_len - 1){
+//           USBSerial_print(",");
+//         }
+//       }
+//       USBSerial_println("]");
+//     } else {
+//       USBSerial_println("No data received.");
+//     }
+//   }
+// }
+
+
+inline void ch552ir_data_test(__xdata ch552ir_data* irdata){
+    if(irdata->format == CH552IR_FORMAT_NEC){
       USBSerial_print("NEC,T=");
-      USBSerial_print(data->t);
-      for (size_t i = 0; i < data->datalength; i++) {
+      USBSerial_print(irdata->t);
+      for (uint8_t i = 0; i < irdata->datalength; i++) {
         USBSerial_print(",");
-        USBSerial_print(data->data[i]);
+        USBSerial_print(irdata->data[i]);
       }
       USBSerial_println("");
-    } else if(data->format == CH552IR_FORMAT_AEHA){
+    } else if(irdata->format == CH552IR_FORMAT_AEHA){
       USBSerial_print("AEHA,T=");
-      USBSerial_print(data->t);
-      for (size_t i = 0; i < data->datalength; i++) {
+      USBSerial_print(irdata->t);
+      for (uint8_t i = 0; i < irdata->datalength; i++) {
         USBSerial_print(",");
-        USBSerial_print(data->data[i]);
+        USBSerial_print(irdata->data[i]);
       }
       USBSerial_println("");
     } else {
       USBSerial_println("Invalid data received.");
     }
 }
-*/
+

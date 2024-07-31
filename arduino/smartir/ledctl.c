@@ -1,6 +1,6 @@
 #include "ledctl.h"
 
-void ledctl_begin(ledctl_led* led, uint8_t pin){
+inline void ledctl_begin(ledctl_led* led, uint8_t pin){
   led->pin = pin;
   led->state = LEDCTL_OFF;
   led->period_ms = 1000;
@@ -9,7 +9,7 @@ void ledctl_begin(ledctl_led* led, uint8_t pin){
   digitalWrite(pin, LOW);
 }
 
-void ledctl_setPeriod(ledctl_led* led, unsigned long period_ms){
+inline void ledctl_setPeriod(ledctl_led* led, unsigned long period_ms){
   led->period_ms = period_ms;
 }
 

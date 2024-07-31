@@ -2,14 +2,14 @@
 #include "Arduino.h"
 #include "buttonctl.h"
 
-void buttonctl_begin(buttonctl_button* button, uint8_t pin){
+inline void buttonctl_begin(buttonctl_button* button, uint8_t pin){
   pinMode(pin, INPUT_PULLUP);
   button->pin = pin;
   button->longPushDuration_ms = 1000;
   buttonctl_clear(button);
 }
 
-void buttonctl_clear(buttonctl_button* button){
+inline void buttonctl_clear(buttonctl_button* button){
   button->pushing = false;
   button->pushed = false;
   button->longPushing = false;

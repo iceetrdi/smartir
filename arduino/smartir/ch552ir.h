@@ -3,6 +3,9 @@
 
 #include <Arduino.h>
 
+#define PIN_IRLED 34
+#define PIN_IRRECEIVER 33
+
 #define CH552IR_NEC_T_US 562
 #define CH552IR_AEHA_T_US_TYP 425
 
@@ -16,15 +19,17 @@ typedef struct struct_ch552ir_data {
   ch552ir_format format;
   unsigned int t;
   uint8_t data[16];
-  size_t datalength;
+  uint8_t datalength;
 } ch552ir_data;
 
-void ch552ir_begin();
-void ch552ir_flush();
-bool ch552ir_available();
-void ch552ir_dataInit(ch552ir_data* data);
-void ch552ir_read(ch552ir_data* data);
-void ch552ir_write(ch552ir_data* data);
-size_t ch552ir_record(uint16_t data[], size_t data_len);
+inline void ch552ir_begin();
+inline void ch552ir_receiverBegin();
+inline void ch552ir_senderBegin();
+inline void ch552ir_flush();
+inline bool ch552ir_available();
+inline void ch552ir_dataInit(__xdata ch552ir_data* data);
+inline uint8_t ch552ir_record(__xdata uint16_t data[], uint8_t data_len);
+void ch552ir_read(__xdata ch552ir_data* data);
+void ch552ir_write(__xdata ch552ir_data* irdata);
 
 #endif

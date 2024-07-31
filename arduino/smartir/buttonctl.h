@@ -14,8 +14,8 @@ typedef struct struct_buttonctl_button {
   unsigned long pushtime_ms;
 } buttonctl_button;
 
-void buttonctl_begin(buttonctl_button* button, uint8_t pin);
-void buttonctl_clear(buttonctl_button* button);
+inline void buttonctl_begin(buttonctl_button* button, uint8_t pin);
+inline void buttonctl_clear(buttonctl_button* button);
 void buttonctl_update(buttonctl_button* button);
 inline bool buttonctl_isPushing(buttonctl_button* button);
 inline bool buttonctl_wasPushed(buttonctl_button* button);

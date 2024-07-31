@@ -17,8 +17,8 @@ typedef struct struct_ledctl_led {
   unsigned long changed_ms;
 } ledctl_led;
 
-void ledctl_begin(ledctl_led* led, uint8_t pin);
-void ledctl_setPeriod(ledctl_led* led, unsigned long period_ms);
+inline void ledctl_begin(ledctl_led* led, uint8_t pin);
+inline void ledctl_setPeriod(ledctl_led* led, unsigned long period_ms);
 void ledctl_write(ledctl_led* led, ledctl_state state);
 void ledctl_update(ledctl_led* led);
 
