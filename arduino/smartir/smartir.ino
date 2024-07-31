@@ -8,7 +8,7 @@ buttonctl_button button;
 ch552ir_data irData;
 ch552ir_data irSaveData;
 
-void ch552ir_data_test(ch552ir_data* data);
+// void ch552ir_data_test(ch552ir_data* data);
 
 
 void setup(){
@@ -34,7 +34,7 @@ void loop(){
     ledctl_write(&led, LEDCTL_ON_UNTIL);
     ledctl_update(&led);
     ch552ir_read(&irSaveData);
-    ch552ir_data_test(&irSaveData);
+    // ch552ir_data_test(&irSaveData);
     buttonctl_clear(&button);
   }
 
@@ -43,7 +43,7 @@ void loop(){
     ledctl_setPeriod(&led, 500);
     ledctl_write(&led, LEDCTL_ON_UNTIL);
     ledctl_update(&led);
-    ch552ir_data_test(&irSaveData);
+    // ch552ir_data_test(&irSaveData);
   }
 
   ledctl_update(&led);
@@ -73,6 +73,7 @@ void ch552ir_record_test(){
 }
 */
 
+/*
 void ch552ir_data_test(ch552ir_data* data){
     if(data->format == CH552IR_FORMAT_NEC){
       USBSerial_print("NEC,T=");
@@ -94,3 +95,4 @@ void ch552ir_data_test(ch552ir_data* data){
       USBSerial_println("Invalid data received.");
     }
 }
+*/

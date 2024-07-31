@@ -113,8 +113,90 @@ void ch552ir_read(ch552ir_data* data){
   送信
 */
 
+volatile __data uint8_t ir_subCarrierPhase;
+volatile __data bool ir_on;
 
+void Timer2Interrupt(void) __interrupt (INT_NO_TMR2)
+{
+  TF2 = 0;
+  if(!ir_subCarrierPhase && ir_on){
+    P3_4 = 1;
+  } else {
+    P3_4 = 0;
+  }
+  ir_subCarrierPhase++;
+  if(ir_subCarrierPhase > 2){
+    ir_subCarrierPhase = 0;
+  }
+}
 
+void ch552ir_irOscillationStart(){
+  const uint16_t timer2_reloadValue_38k = 0xffff - 210;
+  ir_subCarrierPhase = 0;
+  ir_on = false;
+  TR2 = 0;
+  T2MOD |= bTMR_CLK | bT2_CLK;
+  RCAP2H = (uint8_t)(timer2_reloadValue_38k >> 8);
+  RCAP2L = (uint8_t)(timer2_reloadValue_38k & 0xff); 
+  TH2 = RCAP2H;
+  TL2 = RCAP2L;
+  TF2 = 0;
+  ET2 = 1;
+  EA = 1;
+  TR2 = 1;
+}
+
+void ch552ir_irOscillationStop(){
+  TR2 = 0;
+  P3_4 = 0;
+}
+
+void ch552ir_write(ch552ir_data* data){
+  ch552ir_irOscillationStart();
+  unsigned long time_us;
+  unsigned long waitTime_us;
+
+  if(data->format == CH552IR_FORMAT_NEC){
+    ir_on = true;
+    time_us = micros();
+    waitTime_us = data->t * 16;
+    while(micros() - time_us < waitTime_us);
+
+    ir_on = false;
+    time_us += waitTime_us;
+    waitTime_us = data->t * 8;
+    while(micros() - time_us < waitTime_us);
+
+  } else if (data->format == CH552IR_FORMAT_AEHA){
+    ir_on = true;
+    time_us = micros();
+    waitTime_us = data->t * 8;
+    while(micros() - time_us < waitTime_us);
+
+    ir_on = false;
+    time_us += waitTime_us;
+    waitTime_us = data->t * 4;
+    while(micros() - time_us < waitTime_us);
+  }
+  if(data->format == CH552IR_FORMAT_NEC || data->format == CH552IR_FORMAT_AEHA){
+    for(size_t index = 0; index < data->datalength; index++){
+      for(uint8_t bit = 0; bit < 8; bit++){
+        ir_on = true;
+        time_us += waitTime_us;
+        waitTime_us = data->t;
+        while(micros() - time_us < waitTime_us);
+        ir_on = false;
+        time_us += waitTime_us;
+        if(data->data[index] & 1 << bit){
+          waitTime_us = data->t * 3;
+        }else{
+          waitTime_us = data->t;
+        }
+        while(micros() - time_us < waitTime_us);
+      }
+    }
+  }
+}
 
 /*
   送受信共通部
@@ -124,6 +206,7 @@ void ch552ir_begin(){
   irRxSignal = false;
   irRxSignal_us = 0;
   pinMode(PIN_IRRECEIVER, INPUT);
+  pinMode(PIN_IRLED, OUTPUT);
   attachInterrupt(INTERRUPT_IRRECEIVER, ch552ir_receiverInterrupt, FALLING);
 }
 
