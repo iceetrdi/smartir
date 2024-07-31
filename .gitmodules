@@ -4,3 +4,9 @@
 [submodule "WeActStudio.CH552CoreBoard"]
 	path = WeActStudio.CH552CoreBoard
 	url = https://github.com/WeActStudio/WeActStudio.CH552CoreBoard.git
+[submodule "webapp/smartir-webclient"]
+	path = webapp/smartir-webclient
+	url = https://github.com/iceetrdi/smartir-webclient.git
+[submodule "webapp/smartir-webbridge"]
+	path = webapp/smartir-webbridge
+	url = https://github.com/iceetrdi/smartir-webbridge.git
