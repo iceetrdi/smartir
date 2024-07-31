@@ -3,14 +3,14 @@
 void ledctl_begin(ledctl_led* led, uint8_t pin){
   led->pin = pin;
   led->state = LEDCTL_OFF;
-  led->duration_ms = 1000;
+  led->period_ms = 1000;
   led->changed_ms = millis();
   pinMode(pin, OUTPUT);
   digitalWrite(pin, LOW);
 }
 
-void ledctl_setduration(ledctl_led* led, unsigned long duration_ms){
-  led->duration_ms = duration_ms;
+void ledctl_setPeriod(ledctl_led* led, unsigned long period_ms){
+  led->period_ms = period_ms;
 }
 
 void ledctl_write(ledctl_led* led, ledctl_state state){
@@ -35,12 +35,19 @@ void ledctl_update(ledctl_led* led){
     break;
 
     case LEDCTL_ON_UNTIL:
-    if(millis() - led->changed_ms > led->duration_ms){
+    if(millis() - led->changed_ms > led->period_ms){
       digitalWrite(led->pin, LOW);
     }else{
       digitalWrite(led->pin, HIGH);
     }
     break;
+
+    case LEDCTL_BLINK:
+    if(millis() % led->period_ms < led->period_ms / 2){
+      digitalWrite(led->pin, HIGH);
+    } else {
+      digitalWrite(led->pin, LOW);
+    }
 
     default:
     digitalWrite(led->pin, LOW);
