@@ -1,8 +1,6 @@
 #include "ch552ir.h"
 
-#define PIN_IRLED 31
-#define PIN_IRRECEIVER 33
-
-void ch552ir_begin(){
-
+inline void ch552ir_dataInit(__xdata ch552ir_data* data){
+  data->datalength = 0;
+  data->format = CH552IR_FORMAT_UNKNOWN;
 }
