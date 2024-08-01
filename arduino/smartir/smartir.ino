@@ -9,12 +9,14 @@ __xdata ch552ir_data irSaveData;
 
 void ch552ir_serialPrint(__xdata ch552ir_data* irdata);
 void ch552ir_serialRead(__xdata ch552ir_data* irdata);
+void ch552ir_saveEEPROM(__xdata ch552ir_data* irdata);
+void ch552ir_readEEPROM(__xdata ch552ir_data* irdata);
 
 void setup(){
   ch552ir_senderBegin();
   ch552ir_receiverBegin();
   ch552ir_dataInit(&irData);
-  ch552ir_dataInit(&irSaveData);
+  ch552ir_readEEPROM(&irSaveData);
   ledctl_begin(&led, 30);
   buttonctl_begin(&button, 32);
   pinMode(15, OUTPUT);
@@ -42,6 +44,7 @@ void loop(){
     ledctl_update(&led);
     ch552ir_read(&irSaveData);
     ch552ir_flush();
+    ch552ir_saveEEPROM(&irSaveData);
     buttonctl_clear(&button);
   }
 
@@ -129,6 +132,26 @@ void ch552ir_serialRead(__xdata ch552ir_data* irdata){
     
     irdata->datalength = index - 2;
     // USBSerial_println(stringData);
+  }
+}
+
+void ch552ir_saveEEPROM(__xdata ch552ir_data* irdata){
+  eeprom_write_byte(0, irdata->format);
+  eeprom_write_byte(1, (uint8_t)(irdata->t & 0xff));
+  eeprom_write_byte(2, (uint8_t)(irdata->t >> 8));
+  eeprom_write_byte(3, irdata->datalength);
+  for(uint8_t i = 0; i < 16; i++){
+    eeprom_write_byte(i + 4, irdata->data[i]);
+  }
+}
+
+void ch552ir_readEEPROM(__xdata ch552ir_data* irdata){
+  irdata->format = eeprom_read_byte(0);
+  irdata->t = eeprom_read_byte(1);
+  irdata->t |= eeprom_read_byte(2) << 8;
+  irdata->datalength = eeprom_read_byte(3);
+  for(uint8_t i = 0; i < 16; i++){
+    irdata->data[i] = eeprom_read_byte(i + 4);
   }
 }
 
