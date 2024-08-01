@@ -6,6 +6,8 @@
 #define PIN_IRLED 34
 #define PIN_IRRECEIVER 33
 
+#define IR_MAX_DATA_BYTES 8
+
 typedef enum enum_ch552ir_format {
   CH552IR_FORMAT_UNKNOWN,
   CH552IR_FORMAT_NEC = 1,
@@ -16,7 +18,7 @@ typedef struct struct_ch552ir_data {
   ch552ir_format format;
   unsigned int t;
   uint8_t datalength;
-  uint8_t data[16];
+  uint8_t data[IR_MAX_DATA_BYTES];
 } ch552ir_data;
 
 inline void ch552ir_dataInit(__xdata ch552ir_data* data);

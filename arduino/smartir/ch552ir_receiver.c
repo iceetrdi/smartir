@@ -8,7 +8,7 @@
 #define IR_TIMEOUT 10000
 
 #define IR_PULSE_OFFSET_US 80
-#define IR_RAWDATA_US_LEN 128
+#define IR_RAWDATA_US_LEN 136
 
 volatile __data bool irRxSignal;
 volatile __data unsigned long irRxSignal_us;
@@ -58,7 +58,7 @@ void ch552ir_read(__xdata ch552ir_data* data){
     lastStaste = BIT_IRRECEIVER;
   }
 
-  for(uint8_t i=0; i<irRawdata_us_len; i++){
+  for(uint8_t i = 0; i < irRawdata_us_len; i++){
     if(i%2){
       irRawdata_us[i] += IR_PULSE_OFFSET_US;
     }else{
@@ -81,12 +81,12 @@ void ch552ir_read(__xdata ch552ir_data* data){
   }
 
   if(data->format == CH552IR_FORMAT_NEC || data->format == CH552IR_FORMAT_AEHA){
-    for(uint8_t i=0; i<16; i++){
+    for(uint8_t i = 0; i < IR_MAX_DATA_BYTES; i++){
       data->data[i] = 0;
     }
     data->datalength = 0;
 
-    for(uint8_t i=2; i<irRawdata_us_len; i+=2){
+    for(uint8_t i = 2; i < irRawdata_us_len; i+=2){
       uint8_t bit_position = (i - 2) / 2;
       uint8_t byte_index = bit_position / 8;
       uint8_t bit_index = bit_position % 8;
