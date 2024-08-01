@@ -6,11 +6,11 @@
 
 遠隔制御を体験するためのWebアプリはこちらからアクセスしてください。
 
-### [smartir-webbridge](https://iceetrdi.github.io/smartir-webbridge/)
+### [🌉smartir-webbridge](https://iceetrdi.github.io/smartir-webbridge/)
 
 赤外線送受信器を、インターネット上から制御できるようにするためのアプリです。インターネット接続と赤外線送受信器をUSB接続しているPCで、このアプリを実行してください。
 
-### [smartir-webclient](https://iceetrdi.github.io/smartir-webclient/)
+### [📡smartir-webclient](https://iceetrdi.github.io/smartir-webclient/)
 
 インターネット経由で赤外線信号のやりとりをするためのアプリです。インターネット接続されたPCやスマホ等で実行してください。
 
