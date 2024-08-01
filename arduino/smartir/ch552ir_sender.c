@@ -6,6 +6,7 @@ volatile __data bool ir_on;
 
 inline void ch552ir_senderBegin(){
   pinMode(PIN_IRLED, OUTPUT);
+  P3_4 = 0;
 }
 
 void ch552ir_irOscillationStart(){
@@ -75,7 +76,9 @@ void ch552ir_write(__xdata ch552ir_data* irdata){
       }
     }
     ir_on = true;
+    time_us += waitTime_us;
     waitTime_us = irdata->t;
+    while(micros() - time_us < waitTime_us);
     ir_on = false;
   }
 
