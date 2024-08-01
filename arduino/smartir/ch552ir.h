@@ -28,7 +28,6 @@ inline void ch552ir_senderBegin();
 inline void ch552ir_flush();
 inline bool ch552ir_available();
 inline void ch552ir_dataInit(__xdata ch552ir_data* data);
-inline uint8_t ch552ir_record(__xdata uint16_t data[], uint8_t data_len);
 void ch552ir_read(__xdata ch552ir_data* data);
 void ch552ir_write(__xdata ch552ir_data* irdata);
 

@@ -8,6 +8,7 @@
 #define IR_TIMEOUT 10000
 
 #define IR_PULSE_OFFSET_US 80
+#define IR_RAWDATA_US_LEN 128
 
 volatile __data bool irRxSignal;
 volatile __data unsigned long irRxSignal_us;
@@ -33,53 +34,42 @@ inline void ch552ir_flush(){
   irRxSignal_us = 0;
 }
 
-inline uint8_t ch552ir_record(__xdata uint16_t data[], uint8_t data_len){
-  // unsigned long startTime_us = irRxSignal_us;
-  __xdata unsigned long lastChangeTime_us = irRxSignal_us;
-  __xdata unsigned long now_us;
+void ch552ir_read(__xdata ch552ir_data* data){
+  __xdata uint16_t irRawdata_us[IR_RAWDATA_US_LEN];
+  __xdata uint32_t lastChangeTime_us = irRxSignal_us;
+  __xdata uint32_t now_us;
   uint8_t lastStaste = BIT_IRRECEIVER;
-  bool dataAvailable = false;
-  uint8_t len;
+  uint8_t irRawdata_us_len;
+  bool isIrReceiveTimeout = false;
 
   INTERRUPT_EN_IRRECEIVER = 0;
 
-  for(len = 0; len < data_len; len++){
+  for(irRawdata_us_len = 0; irRawdata_us_len < IR_RAWDATA_US_LEN; irRawdata_us_len++){
     while (BIT_IRRECEIVER == lastStaste) {
       if( micros() - lastChangeTime_us > IR_TIMEOUT ){
-        goto ch552ir_record_end;
+        isIrReceiveTimeout = true;
+        break;
       }
     }
+    if(isIrReceiveTimeout) break;
     now_us = micros();
-    data[len] = now_us - lastChangeTime_us;
+    irRawdata_us[irRawdata_us_len] = now_us - lastChangeTime_us;
     lastChangeTime_us = now_us;
-    dataAvailable = true;
     lastStaste = BIT_IRRECEIVER;
   }
 
-  ch552ir_record_end:
-
-  for(uint8_t i=0; i<len; i++){
+  for(uint8_t i=0; i<irRawdata_us_len; i++){
     if(i%2){
-      data[i] += IR_PULSE_OFFSET_US;
+      irRawdata_us[i] += IR_PULSE_OFFSET_US;
     }else{
-      data[i] -= IR_PULSE_OFFSET_US;
+      irRawdata_us[i] -= IR_PULSE_OFFSET_US;
     }
   }
 
   INTERRUPT_EN_IRRECEIVER = 1;
-  ch552ir_flush();
 
-  if(!dataAvailable){
-    return 0;
-  }
-  
-  return len;
-}
-
-void ch552ir_read(__xdata ch552ir_data* data){
-  __xdata uint16_t irRawdata_us[128];
-  uint8_t irRawdata_us_len = ch552ir_record(irRawdata_us, 128);
   __xdata uint16_t irLeader_us = irRawdata_us[0] + irRawdata_us[1];
+
   if(irLeader_us >  10790 && irLeader_us <  16185){
     data->format = CH552IR_FORMAT_NEC;
     data->t = irLeader_us / 24;

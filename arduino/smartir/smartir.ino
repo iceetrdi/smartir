@@ -2,12 +2,12 @@
 #include "buttonctl.h"
 #include "ledctl.h"
 
-inline void ch552ir_data_test(__xdata ch552ir_data* data);
-
 __xdata ledctl_led led;
 __xdata buttonctl_button button;
 __xdata ch552ir_data irData;
 __xdata ch552ir_data irSaveData;
+
+inline void ch552ir_data_test(__xdata ch552ir_data* data);
 
 void setup(){
   ch552ir_begin();
@@ -21,6 +21,12 @@ void setup(){
 void loop(){
   buttonctl_update(&button);
 
+  if(ch552ir_available()){
+    ch552ir_read(&irData);
+    ch552ir_data_test(&irData);
+    ch552ir_flush();
+  }
+
   if(buttonctl_isLongPushing(&button)){
     ledctl_setPeriod(&led, 200);
     ledctl_write(&led, LEDCTL_BLINK);
@@ -32,7 +38,7 @@ void loop(){
     ledctl_write(&led, LEDCTL_ON_UNTIL);
     ledctl_update(&led);
     ch552ir_read(&irSaveData);
-    // ch552ir_data_test(&irSaveData);
+    ch552ir_data_test(&irSaveData);
     buttonctl_clear(&button);
   }
 
@@ -41,34 +47,12 @@ void loop(){
     ledctl_setPeriod(&led, 500);
     ledctl_write(&led, LEDCTL_ON_UNTIL);
     ledctl_update(&led);
-    // ch552ir_data_test(&irSaveData);
+    ch552ir_write(&irSaveData);
+    ch552ir_data_test(&irSaveData);
   }
 
   ledctl_update(&led);
 }
-
-
-// void ch552ir_record_test(){
-//   __xdata uint16_t irRawdata_us[128];
-//   size_t irRawdata_us_len = 0;
-
-//   if(ch552ir_available()){
-//     irRawdata_us_len = ch552ir_record(irRawdata_us, 128);
-//     if(irRawdata_us_len){
-//       USBSerial_print(irRawdata_us_len);
-//       USBSerial_print("[");
-//       for (size_t i = 0; i < irRawdata_us_len; i++) {
-//         USBSerial_print(irRawdata_us[i]);
-//         if(i < irRawdata_us_len - 1){
-//           USBSerial_print(",");
-//         }
-//       }
-//       USBSerial_println("]");
-//     } else {
-//       USBSerial_println("No data received.");
-//     }
-//   }
-// }
 
 
 inline void ch552ir_data_test(__xdata ch552ir_data* irdata){
