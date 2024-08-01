@@ -15,8 +15,8 @@ typedef enum enum_ch552ir_format {
 typedef struct struct_ch552ir_data {
   ch552ir_format format;
   unsigned int t;
-  uint8_t data[16];
   uint8_t datalength;
+  uint8_t data[16];
 } ch552ir_data;
 
 inline void ch552ir_dataInit(__xdata ch552ir_data* data);
