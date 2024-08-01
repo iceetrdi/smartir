@@ -70,7 +70,7 @@ void ch552ir_read(__xdata ch552ir_data* data){
 
   __xdata uint16_t irLeader_us = irRawdata_us[0] + irRawdata_us[1];
 
-  if(irLeader_us >  10790 && irLeader_us <  16185){
+  if(irLeader_us >  10790 && irLeader_us <  16185 && irRawdata_us[0] < irRawdata_us[1] * 3){
     data->format = CH552IR_FORMAT_NEC;
     data->t = irLeader_us / 24;
   }else if(irLeader_us >  4200 && irLeader_us <  7200){
@@ -93,7 +93,7 @@ void ch552ir_read(__xdata ch552ir_data* data){
       if (irRawdata_us[i + 1] > data->t * 2) {
         data->data[byte_index] |= (1 << bit_index);
       }
-      data->datalength = byte_index + 1;
+      data->datalength = byte_index;
     }
   }
 

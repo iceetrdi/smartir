@@ -14,12 +14,12 @@ typedef struct struct_buttonctl_button {
   unsigned long pushtime_ms;
 } buttonctl_button;
 
-inline void buttonctl_begin(buttonctl_button* button, uint8_t pin);
-inline void buttonctl_clear(buttonctl_button* button);
-void buttonctl_update(buttonctl_button* button);
-inline bool buttonctl_isPushing(buttonctl_button* button);
-inline bool buttonctl_wasPushed(buttonctl_button* button);
-inline bool buttonctl_isLongPushing(buttonctl_button* button);
-inline bool buttonctl_wasLongPushed(buttonctl_button* button);
+inline void buttonctl_begin(__xdata buttonctl_button* button, uint8_t pin);
+inline void buttonctl_clear(__xdata buttonctl_button* button);
+void buttonctl_update(__xdata buttonctl_button* button);
+inline bool buttonctl_isPushing(__xdata buttonctl_button* button);
+inline bool buttonctl_wasPushed(__xdata buttonctl_button* button);
+inline bool buttonctl_isLongPushing(__xdata buttonctl_button* button);
+inline bool buttonctl_wasLongPushed(__xdata buttonctl_button* button);
 
 #endif

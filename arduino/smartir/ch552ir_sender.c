@@ -74,7 +74,12 @@ void ch552ir_write(__xdata ch552ir_data* irdata){
         while(micros() - time_us < waitTime_us);
       }
     }
+    ir_on = true;
+    waitTime_us = irdata->t;
+    ir_on = false;
   }
+
+  ch552ir_irOscillationStop();
 }
 
 

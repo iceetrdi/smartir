@@ -2,21 +2,21 @@
 #include "Arduino.h"
 #include "buttonctl.h"
 
-inline void buttonctl_begin(buttonctl_button* button, uint8_t pin){
+inline void buttonctl_begin(__xdata buttonctl_button* button, uint8_t pin){
   pinMode(pin, INPUT_PULLUP);
   button->pin = pin;
   button->longPushDuration_ms = 1000;
   buttonctl_clear(button);
 }
 
-inline void buttonctl_clear(buttonctl_button* button){
+inline void buttonctl_clear(__xdata buttonctl_button* button){
   button->pushing = false;
   button->pushed = false;
   button->longPushing = false;
   button->longPushed = false;
 }
 
-void buttonctl_update(buttonctl_button* button){
+void buttonctl_update(__xdata buttonctl_button* button){
   unsigned long now_ms = millis();
   if(!digitalRead(button->pin)){ // ボタンが押されている状態
     if(!button->pushing){ // ボタン押下を検知
@@ -38,10 +38,10 @@ void buttonctl_update(buttonctl_button* button){
   }
 }
 
-inline bool buttonctl_isPushing(buttonctl_button* button){ return button->pushing; }
+inline bool buttonctl_isPushing(__xdata buttonctl_button* button){ return button->pushing; }
 
-inline bool buttonctl_wasPushed(buttonctl_button* button){ return button->pushed; }
+inline bool buttonctl_wasPushed(__xdata buttonctl_button* button){ return button->pushed; }
 
-inline bool buttonctl_isLongPushing(buttonctl_button* button){ return button->longPushing; }
+inline bool buttonctl_isLongPushing(__xdata buttonctl_button* button){ return button->longPushing; }
 
-inline bool buttonctl_wasLongPushed(buttonctl_button* button){ return button->longPushed; }
+inline bool buttonctl_wasLongPushed(__xdata buttonctl_button* button){ return button->longPushed; }
