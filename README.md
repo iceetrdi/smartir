@@ -16,15 +16,24 @@
 
 ## 使用材料
 
-### マイコン
-
-#### マイコンボード
+### マイコンボード
 
 [WeActStudio.CH552CoreBoard](https://github.com/WeActStudio/WeActStudio.CH552CoreBoard)
 
-#### 開発環境
+## 開発環境
 
-[Arduino IDE](https://www.arduino.cc/en/software) と [ch55xduino](https://github.com/DeqingSun/ch55xduino) を使用しています。
+- [Arduino IDE](https://www.arduino.cc/en/software)
+- [ch55xduino](https://github.com/DeqingSun/ch55xduino)
+
+### 開発環境構築方法
+
+1. WCH社Webサイトからドライバ [CH372DRV.EXE](https://www.wch-ic.com/downloads/CH372DRV_EXE.html) を入手し、インストールしてください（※）
+2. Arduino IDE を入手し、インストールしてください
+3. Arduino IDE を起動し、基本設定 ( Ctrl + , ) の「追加のボードマネージャのURL」にch55xduinoを入手するためのURL ( https://raw.githubusercontent.com/DeqingSun/ch55xduino/ch55xduino/package_ch55xduino_mcs51_index.json ) を入力してください
+4. Arduino IDE のボードマネージャから`CH55xDuino MCS51 plain C core (non-C++)`をインストールしてください
+5. ボードは、`CH55xDuino MCS51 plain C core (non-C++)` から `CH552 Board` を選択してください
+
+※ このドライバがないとプログラム書き込みに失敗します。代わりに[WCHISPTool](https://www.wch.cn/downloads/WCHISPTool_Setup_exe.html)をインストールしても動作します。
 
 ## ご注意
 
